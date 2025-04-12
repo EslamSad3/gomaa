@@ -147,11 +147,12 @@ const verifyOTP = async (req, res) => {
     if (!email || !otp) {
       throw new Error('Email and OTP are required');
     }
-      const user = await SuperUser.findOne({ email });
+      const user = await SuperUser.findOne({ email, loginOTP: otp });
     if (!user) {
       throw new Error('Invalid OTP');
     }
     user.loginOTP = undefined;
+    user.loginOTPExpires = undefined;
     await user.save();
     const token = jwt.sign(
       {
