@@ -158,13 +158,17 @@ const verifyOTP = async (req, res) => {
         _id: user._id,
         tenant_id: user.tenant_id,
         email:user.email,
+        name:user.name,
       },
       process.env.JWT_SECRET,
       { expiresIn: '15m' }
     );
 
     const refreshToken = jwt.sign(
-      { _id: user._id },
+      {  _id: user._id,
+        tenant_id: user.tenant_id,
+        email:user.email,
+        name:user.name,},
       process.env.JWT_REFRESH_SECRET,
       { expiresIn: '7d' }
     );
